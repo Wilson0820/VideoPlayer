@@ -24,6 +24,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".VideoList.FileListActivity"
+            android:launchMode="singleTask"
             android:parentActivityName=".FolderList.MainActivity"></activity>
         <activity
             android:name=".Player.MovieActivity"
