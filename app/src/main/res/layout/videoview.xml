@@ -36,7 +36,7 @@
             >
             <TextView
                 android:layout_gravity="left"
-                android:textSize="15sp"
+                android:textSize="16sp"
                 android:text="videopath"
                 android:textColor="#FFFAFA"
                 android:id="@+id/top_vdieopath"
@@ -50,28 +50,41 @@
                 android:text="videoname"
                 android:textColor="#FFFAFA"
                 android:id="@+id/top_vdieoname"
+                android:singleLine="true"
+                android:ellipsize="middle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
                 android:layout_gravity="right"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:text="filenum"
                 android:id="@+id/top_vdieonum"
                 android:textColor="#FFFAFA"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </android.support.v7.widget.Toolbar>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true">
         <com.fxc.myvideoplayer.Player.VerticalSeekBar
             android:id="@+id/volbar"
-            android:layout_marginTop="50dp"
             android:layout_centerVertical="true"
-            android:layout_below="@id/toolbar_video"
             android:layout_width="wrap_content"
             android:progressDrawable="@drawable/seek_drawable"
             android:thumb="@drawable/seek_thumb"
             android:max="10"
             android:progress="4"
             android:layout_height="match_parent" />
+        <ImageView
+            android:id="@+id/speaker"
+            android:layout_below="@id/volbar"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_volume_up_black_24dp"
+            />
+        </RelativeLayout>
     </RelativeLayout>
 
 </com.fxc.myvideoplayer.Player.MyRelativeView>

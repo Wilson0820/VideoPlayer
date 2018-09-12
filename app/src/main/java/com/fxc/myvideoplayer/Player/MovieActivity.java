@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Configuration;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -32,6 +34,7 @@ public class MovieActivity extends AppCompatActivity {
     private TextView video_path;
     private TextView video_name;
     private TextView video_no;
+    private ImageView speaker;
     private String tpath;
     private Toolbar toolbar_video;
     private int filesum;
@@ -62,6 +65,16 @@ public class MovieActivity extends AppCompatActivity {
         video_path=findViewById(R.id.top_vdieopath);
         video_name=findViewById(R.id.top_vdieoname);
         video_no=findViewById(R.id.top_vdieonum);
+        speaker = findViewById(R.id.speaker);
+        int mCurrentOrientation = getResources().getConfiguration().orientation;
+
+        if ( mCurrentOrientation == Configuration.ORIENTATION_PORTRAIT ) {
+            video_name.setMaxWidth(540);
+        } else if ( mCurrentOrientation == Configuration.ORIENTATION_LANDSCAPE ) {
+            video_name.setMaxWidth(1180);
+            video_path.setMaxWidth(120);
+        }
+
         toolbar_video.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,6 +120,7 @@ public class MovieActivity extends AppCompatActivity {
                 handler.postDelayed(this,3000);
                 toolbar_video.setVisibility(View.GONE);
                 volbar.setVisibility(View.GONE);
+                speaker.setVisibility(View.GONE);
 
             }
         };
@@ -145,6 +159,11 @@ public class MovieActivity extends AppCompatActivity {
       audioManager=(AudioManager)getSystemService(Context.AUDIO_SERVICE);
       maxVol = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
       currentVol = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        if (currentVol == 0){
+            speaker.setImageDrawable(getResources().getDrawable(R.drawable.ic_volume_off_black_24dp));
+        }else {
+            speaker.setImageDrawable(getResources().getDrawable(R.drawable.ic_volume_up_black_24dp));
+        }
       volbar.setMax(maxVol);
       volbar.setProgress(currentVol);
       showVolbar();
@@ -154,6 +173,11 @@ public class MovieActivity extends AppCompatActivity {
           public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
               audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,progress,0);
               currentVol = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+              if (currentVol == 0){
+                  speaker.setImageDrawable(getResources().getDrawable(R.drawable.ic_volume_off_black_24dp));
+              }else {
+                  speaker.setImageDrawable(getResources().getDrawable(R.drawable.ic_volume_up_black_24dp));
+              }
               volbar.setProgress(currentVol);
               showVolbar();
           }
@@ -338,6 +362,7 @@ public class MovieActivity extends AppCompatActivity {
     public void showVolbar()
     {
         volbar.setVisibility(View.VISIBLE);
+        speaker.setVisibility(View.VISIBLE);
         handler.removeCallbacks(runnable);
         handler.postDelayed(runnable,3000);
     }
@@ -356,6 +381,11 @@ public class MovieActivity extends AppCompatActivity {
             if (intent.getAction().equals("android.media.VOLUME_CHANGED_ACTION")){
                 showVolbar();
                 currentVol = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+                if (currentVol == 0){
+                    speaker.setImageDrawable(getResources().getDrawable(R.drawable.ic_volume_off_black_24dp));
+                }else {
+                    speaker.setImageDrawable(getResources().getDrawable(R.drawable.ic_volume_up_black_24dp));
+                }
                 volbar.setProgress(currentVol);
             }
         }
