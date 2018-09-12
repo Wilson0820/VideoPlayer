@@ -1,33 +1,42 @@
 package com.fxc.myvideoplayer.FolderList;
 
+import android.content.ContentResolver;
+import android.database.Cursor;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import com.fxc.myvideoplayer.R;
+import com.fxc.myvideoplayer.VideoList.VideoItems;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
+    List<FolderItems> folderItems = new ArrayList<>();
+    FolderAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        List<FolderItems> folders = FolderFactory.createFolders(4);
-        FolderAdapter adapter = new FolderAdapter(this,folders);
+        //List<FolderItems> folders = FolderFactory.createFolders(4);
+        adapter = new FolderAdapter(this,folderItems);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new FolderItemDecoration(2));
+        loadFolder();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -39,6 +48,32 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+//
+    private void loadFolder() {
+        List<FolderItems> list = new ArrayList<>();
+//        1.获取ContentResolver对象
+        ContentResolver resolver = getContentResolver();
+//        2.获取Uri地址
+        Uri videoUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+//        3.开始查询系统视频数据库
+        Cursor cursor = resolver.query(videoUri, null, null, null, MediaStore.Video.Media.DISPLAY_NAME);
+//      4.移动cursor指针
+        if(cursor==null){
+            Toast.makeText(this, "没有找到可播放视频文件", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        while (cursor.moveToNext()) {
+            String folder_cat_name = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.ALBUM));
+            Log.i("album", "video_album----" + folder_cat_name);
+            FolderItems folderItem = new FolderItems(folder_cat_name);
+            list.add(folderItem);
+        }
+        folderItems.addAll(list);
+        cursor.close();
+        adapter.notifyDataSetChanged();
+    }
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_toolbar, menu);

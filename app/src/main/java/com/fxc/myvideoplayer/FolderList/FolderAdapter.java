@@ -2,6 +2,9 @@ package com.fxc.myvideoplayer.FolderList;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.media.ThumbnailUtils;
+import android.provider.MediaStore;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -36,11 +39,12 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
      final FolderItems folder = folders.get(position);
-        Glide.with(context)
+       /* Glide.with(context)
                 .load(folder.get_image_Resource())
-                .into(holder.img);
+                .into(holder.img);*/
         holder.folder_name.setText(folder.get_folder_cat_name());
         holder.folder_num.setText(folder.get_folder_number());
+
         holder.folder_item.setOnClickListener(new View.OnClickListener() {
     @Override
         public void onClick(View v) {

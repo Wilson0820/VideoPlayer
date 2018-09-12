@@ -29,7 +29,7 @@ public class FileListActivity extends AppCompatActivity {
     RecyclerView videoRecyclerView;
     RecyclerView.LayoutManager layoutManager;
     VideoAdapter adapter;
-    List<VideoItems> videos= new ArrayList<>();
+    List<VideoItems> videos = new ArrayList<>();
     ArrayList<String> pathlist = new ArrayList<String>();
 
     @Override
@@ -41,12 +41,12 @@ public class FileListActivity extends AppCompatActivity {
         String folderName = getIntent().getStringExtra("folder_cat_name");
         actionBar.setTitle(folderName);
 
-       // List<VideoItems> videos = VideoFactory.create_videos(20);
+        // List<VideoItems> videos = VideoFactory.create_videos(20);
 
-        adapter = new VideoAdapter(this,videos,pathlist);
+        adapter = new VideoAdapter(this, videos, pathlist);
         //设置为list
         //layoutManager = new LinearLayoutManager(this);
-      // 设置为grid显示
+        // 设置为grid显示
         RecyclerView.LayoutManager layoutManager = new StaggeredGridLayoutManager(
                 2, StaggeredGridLayoutManager.VERTICAL
         );
@@ -54,10 +54,9 @@ public class FileListActivity extends AppCompatActivity {
         videoRecyclerView.setAdapter(adapter);
         videoRecyclerView.setLayoutManager(layoutManager);
         videoRecyclerView.addItemDecoration(new FolderItemDecoration(2));
-     // 加载sd卡当中的视频
+        // 加载sd卡当中的视频
         loadData();
     }
-
 
     private void loadData() {
         List<VideoItems> list = new ArrayList<>();
@@ -68,21 +67,23 @@ public class FileListActivity extends AppCompatActivity {
 //        3.开始查询系统视频数据库
         Cursor cursor = resolver.query(videoUri, null, null, null, MediaStore.Video.Media.DISPLAY_NAME);
 //      4.移动cursor指针
+        if(cursor==null){
+            Toast.makeText(this, "没有找到可播放视频文件", 1).show();
+            return;
+        }
         while (cursor.moveToNext()) {
             String video_name = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DISPLAY_NAME));
-            Log.i("71","video_name"+video_name);
             String video_path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
-            Log.i("path","video_name"+video_path);
+            String video_album = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.ALBUM));
+            Log.i("album", "video_album----" + video_album);
             long video_duration = cursor.getLong(cursor.getColumnIndex(MediaStore.Video.Media.DURATION));
-            Log.i("74","video_duration"+video_duration);
             //long size = cursor.getLong(cursor.getColumnIndex(MediaStore.Video.Media.SIZE));
-            VideoItems videoItem = new VideoItems(video_name, video_duration,video_path);
+            VideoItems videoItem = new VideoItems(video_name, video_duration, video_path);
             list.add(videoItem);
             pathlist.add(video_path);
 
         }
         videos.addAll(list);
-        Log.i("78","list"+videos.get(0));
         cursor.close();
         adapter.notifyDataSetChanged();
     }
@@ -108,8 +109,8 @@ public class FileListActivity extends AppCompatActivity {
             layoutManager = new StaggeredGridLayoutManager(
                     2, StaggeredGridLayoutManager.VERTICAL
             );
-          videoRecyclerView.setLayoutManager(layoutManager);
-          adapter.notifyDataSetChanged();
+            videoRecyclerView.setLayoutManager(layoutManager);
+            adapter.notifyDataSetChanged();
             return true;
         }
         return super.onOptionsItemSelected(item);
