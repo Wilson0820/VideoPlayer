@@ -36,7 +36,7 @@
 
     <TextView
         android:id="@+id/folder_cat_name"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:layout_marginStart="18dp"
         android:layout_marginEnd="10dp"
@@ -44,10 +44,20 @@
         android:layout_marginBottom="20dp"
         android:text="football"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/folder_image"/>
 
+    <TextView
 
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:text="videos"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/folder_cat_name"/>
 
 </android.support.constraint.ConstraintLayout>
 

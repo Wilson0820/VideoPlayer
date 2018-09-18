@@ -54,10 +54,10 @@ public class MainActivity extends AppCompatActivity {
     }
 //
     private void loadFolder() {
-        int count=1;
+        int count=0;
         int video_number=0;
         List<FolderItems> list = new ArrayList<>();
-        ArrayList<Integer> list1 = new ArrayList<>();
+
 //        1.获取ContentResolver对象
         ContentResolver resolver = getContentResolver();
 //        2.获取Uri地址
@@ -73,23 +73,26 @@ public class MainActivity extends AppCompatActivity {
             //TODO
             String path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
             //Log.i("path", "video_album----" + path);
-            folderName= getFolderName(path);
+            folderName = getFolderName(path);
             //Log.i("folderName", "73  video_album----" + folderName);
-            if(folderName.equals(lastfolderName)){
-                count=count+1;
-                Log.i("video_num","video_number==="+video_number);
-            }else if(!folderName.equals(lastfolderName)){
+            if (lastfolderName == null||lastfolderName.length()==0) {
+                lastfolderName = folderName;
+            }
+             if (folderName.equals(lastfolderName)) {
+                count = count + 1;
+                Log.i("video_num", "video_number===" + video_number);
+            } else if (!folderName.equals(lastfolderName)) {
                 //TODO
-                video_number= count;
+                video_number = count;
                 String video_num = String.valueOf(count);
-                Log.i("video_num","video_number==="+video_number);
-                folderItem = new FolderItems(folderName,video_num);
+                Log.i("video_num", "video_number===" + video_number);
+
+                folderItem = new FolderItems(lastfolderName, video_num);
                 list.add(folderItem);
-                reSet(count);
+                count = 1;
             }
             lastfolderName = folderName;
             }
-
         folderItems.addAll(list);
         cursor.close();
         adapter.notifyDataSetChanged();
@@ -102,12 +105,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-public int reSet(int i){
+/*public int reSet(int i){
         if (i!=1){
             i=1;
         }
         return i;
-}
+}*/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_toolbar, menu);
