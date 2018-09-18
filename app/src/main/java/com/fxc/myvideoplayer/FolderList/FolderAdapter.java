@@ -43,7 +43,7 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ViewHolder
                 .load(folder.get_image_Resource())
                 .into(holder.img);*/
         holder.folder_name.setText(folder.get_folder_cat_name());
-        holder.folder_num.setText(folder.get_folder_number());
+        holder.folder_num.setText(folder.get_video_number());
 
         holder.folder_item.setOnClickListener(new View.OnClickListener() {
     @Override

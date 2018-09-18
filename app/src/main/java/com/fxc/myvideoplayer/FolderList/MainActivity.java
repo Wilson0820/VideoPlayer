@@ -18,12 +18,16 @@ import android.widget.Toast;
 import com.fxc.myvideoplayer.R;
 import com.fxc.myvideoplayer.VideoList.VideoItems;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     List<FolderItems> folderItems = new ArrayList<>();
     FolderAdapter adapter;
+    String folderName,lastfolderName;
+    FolderItems folderItem;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,30 +54,60 @@ public class MainActivity extends AppCompatActivity {
     }
 //
     private void loadFolder() {
+        int count=1;
+        int video_number=0;
         List<FolderItems> list = new ArrayList<>();
+        ArrayList<Integer> list1 = new ArrayList<>();
 //        1.获取ContentResolver对象
         ContentResolver resolver = getContentResolver();
 //        2.获取Uri地址
         Uri videoUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
 //        3.开始查询系统视频数据库
-        Cursor cursor = resolver.query(videoUri, null, null, null, MediaStore.Video.Media.DISPLAY_NAME);
+        Cursor cursor = resolver.query(videoUri, null, null, null, MediaStore.Video.Media.DATA);
 //      4.移动cursor指针
         if(cursor==null){
             Toast.makeText(this, "没有找到可播放视频文件", Toast.LENGTH_SHORT).show();
             return;
         }
         while (cursor.moveToNext()) {
-            String folder_cat_name = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.ALBUM));
-            Log.i("album", "video_album----" + folder_cat_name);
-            FolderItems folderItem = new FolderItems(folder_cat_name);
-            list.add(folderItem);
-        }
+            //TODO
+            String path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
+            //Log.i("path", "video_album----" + path);
+            folderName= getFolderName(path);
+            //Log.i("folderName", "73  video_album----" + folderName);
+            if(folderName.equals(lastfolderName)){
+                count=count+1;
+                Log.i("video_num","video_number==="+video_number);
+            }else if(!folderName.equals(lastfolderName)){
+                //TODO
+                video_number= count;
+                String video_num = String.valueOf(count);
+                Log.i("video_num","video_number==="+video_number);
+                folderItem = new FolderItems(folderName,video_num);
+                list.add(folderItem);
+                reSet(count);
+            }
+            lastfolderName = folderName;
+            }
+
         folderItems.addAll(list);
         cursor.close();
         adapter.notifyDataSetChanged();
     }
+    public String getFolderName(String path){
+        String[] path1= path.split("/");
+        String folderName = path1[path1.length-2];
 
+        return folderName;
 
+    }
+
+public int reSet(int i){
+        if (i!=1){
+            i=1;
+        }
+        return i;
+}
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_toolbar, menu);

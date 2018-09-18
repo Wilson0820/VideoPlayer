@@ -68,14 +68,13 @@ public class FileListActivity extends AppCompatActivity {
         Cursor cursor = resolver.query(videoUri, null, null, null, MediaStore.Video.Media.DISPLAY_NAME);
 //      4.移动cursor指针
         if(cursor==null){
-            Toast.makeText(this, "没有找到可播放视频文件", 1).show();
+            Toast.makeText(this, "没有找到可播放视频文件", Toast.LENGTH_LONG).show();
             return;
         }
         while (cursor.moveToNext()) {
             String video_name = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DISPLAY_NAME));
             String video_path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
-            String video_album = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.ALBUM));
-            Log.i("album", "video_album----" + video_album);
+           // String video_album = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.ALBUM));
             long video_duration = cursor.getLong(cursor.getColumnIndex(MediaStore.Video.Media.DURATION));
             //long size = cursor.getLong(cursor.getColumnIndex(MediaStore.Video.Media.SIZE));
             VideoItems videoItem = new VideoItems(video_name, video_duration, video_path);

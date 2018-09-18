@@ -14,7 +14,7 @@ public class FolderFactory {
             {"football", "basketball", "movies","others"};
 
     private static String[] folder_numbers =
-            {"10 videos", "11 videos", "12videos","15videos"};
+            {"10", "11", "12","13"};
 
     public static List<FolderItems> createFolders(int num) {
 
