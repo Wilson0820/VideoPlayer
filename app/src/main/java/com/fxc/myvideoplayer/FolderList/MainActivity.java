@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
     List<FolderItems> folderItems = new ArrayList<>();
     FolderAdapter adapter;
     String folderName,lastfolderName;
-    FolderItems folderItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,30 +68,40 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "没有找到可播放视频文件", Toast.LENGTH_SHORT).show();
             return;
         }
+        FolderItems folderItem;
         while (cursor.moveToNext()) {
             //TODO
-            String path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
-            //Log.i("path", "video_album----" + path);
-            folderName = getFolderName(path);
-            //Log.i("folderName", "73  video_album----" + folderName);
-            if (lastfolderName == null||lastfolderName.length()==0) {
-                lastfolderName = folderName;
-            }
-             if (folderName.equals(lastfolderName)) {
-                count = count + 1;
-                Log.i("video_num", "video_number===" + video_number);
-            } else if (!folderName.equals(lastfolderName)) {
-                //TODO
-                video_number = count;
-                String video_num = String.valueOf(count);
-                Log.i("video_num", "video_number===" + video_number);
 
-                folderItem = new FolderItems(lastfolderName, video_num);
-                list.add(folderItem);
-                count = 1;
+            //第一個item
+            if (lastfolderName == null) {
+                String path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
+                folderName = getFolderName(path);
+                lastfolderName = folderName;
+                count++;
             }
-            lastfolderName = folderName;
+            else {
+                lastfolderName = folderName;
+                String path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
+                folderName = getFolderName(path);
+                //folderName一樣
+                if (folderName.equals(lastfolderName)) {
+                    count = count + 1;
+                }
+                //folderName不一樣
+                else {
+                    //TODO
+                    folderItem = new FolderItems(lastfolderName, String.valueOf(count));
+                    list.add(folderItem);
+                    count = 1;
+                }
             }
+        }
+        //跳出迴圈之後判斷最後一個資料夾
+        if (!folderName.equals(lastfolderName)){
+            Log.d("Seamas","??");
+            folderItem = new FolderItems(folderName, String.valueOf(count));
+            list.add(folderItem);
+        }
         folderItems.addAll(list);
         cursor.close();
         adapter.notifyDataSetChanged();
