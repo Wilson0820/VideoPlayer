@@ -40,7 +40,7 @@
                 android:text="videopath"
                 android:textColor="#FFFAFA"
                 android:id="@+id/top_vdieopath"
-                android:layout_width="80dp"
+                android:layout_width="wrap_content"
                 android:singleLine="true"
                 android:ellipsize="middle"
                 android:layout_height="wrap_content"/>
@@ -49,6 +49,7 @@
                 android:textSize="18sp"
                 android:text="videoname"
                 android:textColor="#FFFAFA"
+                android:textAlignment="center"
                 android:id="@+id/top_vdieoname"
                 android:singleLine="true"
                 android:ellipsize="middle"

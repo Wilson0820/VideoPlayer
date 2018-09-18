@@ -55,6 +55,7 @@ public class MovieActivity extends AppCompatActivity {
     private VerticalSeekBar volbar;
     public  AudioManager audioManager;
     private int maxVol,currentVol;
+    private String rootpath;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,10 +70,11 @@ public class MovieActivity extends AppCompatActivity {
         int mCurrentOrientation = getResources().getConfiguration().orientation;
 
         if ( mCurrentOrientation == Configuration.ORIENTATION_PORTRAIT ) {
-            video_name.setMaxWidth(540);
+            video_name.setMaxWidth(480);
+            video_path.setMaxWidth(120);
         } else if ( mCurrentOrientation == Configuration.ORIENTATION_LANDSCAPE ) {
             video_name.setMaxWidth(1180);
-            video_path.setMaxWidth(120);
+            video_path.setMaxWidth(300);
         }
 
         toolbar_video.setNavigationOnClickListener(new View.OnClickListener() {
@@ -214,10 +216,13 @@ public class MovieActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         int sec = video.getCurrentPosition();
         boolean isplay =video.isPlaying();
-        String vpath=video_path.getText().toString();
+        String vpath=rootpath+video_path.getText().toString();
+        //String vpath = tpath.toString();
+        Log.i("vpath", "onSaveInstanceState: "+vpath);
         String vname=video_name.getText().toString();
         vno=video_no.getText().toString();
         String currentpath= vpath+vname;
+        //String currentpath= vpath;
         outState.putString("fileindex",vno);
         outState.putString("currentpath",currentpath);
         Log.i("path", "onRestoreInstanceState: 111"+currentpath);
@@ -287,8 +292,10 @@ public class MovieActivity extends AppCompatActivity {
     }
     public String getVideoPath(String tpath){
         int end = tpath.lastIndexOf("/");
+        int start = tpath.lastIndexOf("0/")+1;
+        rootpath = tpath.substring(0,start);
         if(end!=-1){
-            return tpath.substring(0,end+1);
+            return tpath.substring(start,end+1);
         }else{
             return null;
         }
