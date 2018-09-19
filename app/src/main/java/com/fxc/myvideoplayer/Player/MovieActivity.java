@@ -146,7 +146,10 @@ public class MovieActivity extends AppCompatActivity {
            @Override
            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
                if (!mController.isShowing()){
-                   hideTitleMenu();
+                  // hideTitleMenu();
+                   volbar.setVisibility(View.GONE);
+                   speaker.setVisibility(View.GONE);
+                   toolbar_video.setVisibility(View.GONE);
                    Log.i("onlayoutchange", "onLayoutChange:--hide ");
 
                }else{
@@ -168,7 +171,9 @@ public class MovieActivity extends AppCompatActivity {
         }
       volbar.setMax(maxVol);
       volbar.setProgress(currentVol);
-      showVolbar();
+      //showVolbar();
+      volbar.setVisibility(View.GONE);
+      speaker.setVisibility(View.GONE);
       myRegisterReceiver();
       volbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
           @Override
@@ -182,6 +187,7 @@ public class MovieActivity extends AppCompatActivity {
               }
               volbar.setProgress(currentVol);
               showVolbar();
+              toolbar_video.setVisibility(View.VISIBLE);
           }
 
           @Override
