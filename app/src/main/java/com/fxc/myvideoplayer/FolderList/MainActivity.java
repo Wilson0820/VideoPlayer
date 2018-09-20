@@ -70,7 +70,8 @@ public class MainActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode){
             case 5566:
-                loadFolder();
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                    loadFolder();
                 break;
         }
     }
