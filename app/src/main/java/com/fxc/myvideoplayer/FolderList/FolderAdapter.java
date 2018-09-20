@@ -39,9 +39,10 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
      final FolderItems folder = folders.get(position);
-       /* Glide.with(context)
-                .load(folder.get_image_Resource())
-                .into(holder.img);*/
+       Glide.with(context)
+                .load(R.drawable.item2)
+                .into(holder.img);
+
         holder.folder_name.setText(folder.get_folder_cat_name());
         holder.folder_num.setText(folder.get_video_number());
 

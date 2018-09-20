@@ -31,6 +31,7 @@ public class FileListActivity extends AppCompatActivity {
     VideoAdapter adapter;
     List<VideoItems> videos = new ArrayList<>();
     ArrayList<String> pathlist = new ArrayList<String>();
+    String folderName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +39,7 @@ public class FileListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_file_list);
 
         actionBar = getSupportActionBar();
-        String folderName = getIntent().getStringExtra("folder_cat_name");
+        folderName = getIntent().getStringExtra("folder_cat_name");
         actionBar.setTitle(folderName);
 
         // List<VideoItems> videos = VideoFactory.create_videos(20);
@@ -72,21 +73,31 @@ public class FileListActivity extends AppCompatActivity {
             return;
         }
         while (cursor.moveToNext()) {
-            String video_name = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DISPLAY_NAME));
-            String video_path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
-           // String video_album = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.ALBUM));
-            long video_duration = cursor.getLong(cursor.getColumnIndex(MediaStore.Video.Media.DURATION));
-            //long size = cursor.getLong(cursor.getColumnIndex(MediaStore.Video.Media.SIZE));
-            VideoItems videoItem = new VideoItems(video_name, video_duration, video_path);
-            list.add(videoItem);
-            pathlist.add(video_path);
-
+            //TODO
+                String path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
+                String folderNameSub = getFolderName(path);
+                if(folderNameSub.equals(folderName)){
+                String video_name = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DISPLAY_NAME));
+                String video_path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
+                // String video_album = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.ALBUM));
+                long video_duration = cursor.getLong(cursor.getColumnIndex(MediaStore.Video.Media.DURATION));
+                //long size = cursor.getLong(cursor.getColumnIndex(MediaStore.Video.Media.SIZE));
+                VideoItems videoItem = new VideoItems(video_name, video_duration, video_path);
+                list.add(videoItem);
+                Log.i("list","第一个视频地址"+list.get(0));
+                pathlist.add(video_path);
+            }
         }
         videos.addAll(list);
         cursor.close();
         adapter.notifyDataSetChanged();
     }
 
+    public String getFolderName(String path){
+        String[] path1= path.split("/");
+        String folderName = path1[path1.length-2];
+        return folderName;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

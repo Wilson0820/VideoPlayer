@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
 //
     private void loadFolder() {
         int count=0;
-        int video_number=0;
         List<FolderItems> list = new ArrayList<>();
 
 //        1.获取ContentResolver对象
@@ -82,6 +81,8 @@ public class MainActivity extends AppCompatActivity {
             else {
                 lastfolderName = folderName;
                 String path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
+                Log.i("joy","path" +path);
+               // String folder_path =
                 folderName = getFolderName(path);
                 //folderName一樣
                 if (folderName.equals(lastfolderName)) {
@@ -95,31 +96,24 @@ public class MainActivity extends AppCompatActivity {
                     count = 1;
                 }
             }
+
         }
-        //跳出迴圈之後判斷最後一個資料夾
-        if (!folderName.equals(lastfolderName)){
-            Log.d("Seamas","??");
+
+
             folderItem = new FolderItems(folderName, String.valueOf(count));
             list.add(folderItem);
-        }
+
         folderItems.addAll(list);
         cursor.close();
         adapter.notifyDataSetChanged();
     }
+
     public String getFolderName(String path){
         String[] path1= path.split("/");
         String folderName = path1[path1.length-2];
-
         return folderName;
-
     }
 
-/*public int reSet(int i){
-        if (i!=1){
-            i=1;
-        }
-        return i;
-}*/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_toolbar, menu);
