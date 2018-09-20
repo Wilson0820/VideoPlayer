@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     List<FolderItems> folderItems = new ArrayList<>();
     FolderAdapter adapter;
     String folderName,lastfolderName;
+    ArrayList<FolderItems> firstVideoPath = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,13 +68,18 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "没有找到可播放视频文件", Toast.LENGTH_SHORT).show();
             return;
         }
-        FolderItems folderItem;
+        FolderItems folderItem,folderItems1,folderItems2;
+
         while (cursor.moveToNext()) {
             //TODO
 
             //第一個item
             if (lastfolderName == null) {
                 String path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
+
+                folderItems1= new FolderItems(path);
+                firstVideoPath.add(folderItems1);
+
                 folderName = getFolderName(path);
                 lastfolderName = folderName;
                 count++;
@@ -81,9 +87,8 @@ public class MainActivity extends AppCompatActivity {
             else {
                 lastfolderName = folderName;
                 String path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
-                Log.i("joy","path" +path);
-               // String folder_path =
                 folderName = getFolderName(path);
+
                 //folderName一樣
                 if (folderName.equals(lastfolderName)) {
                     count = count + 1;
@@ -92,18 +97,22 @@ public class MainActivity extends AppCompatActivity {
                 else {
                     //TODO
                     folderItem = new FolderItems(lastfolderName, String.valueOf(count));
+                    folderItems2= new FolderItems(path);
+                    firstVideoPath.add(folderItems2);
                     list.add(folderItem);
                     count = 1;
                 }
             }
 
         }
-
-
             folderItem = new FolderItems(folderName, String.valueOf(count));
             list.add(folderItem);
-
-        folderItems.addAll(list);
+            folderItems.addAll(list);
+        //add log for first
+        for(int i=0;i<firstVideoPath.size();i++){
+            Log.i("videoPath","videoPath"+i+"~~"+firstVideoPath.get(i).get_first_Video_Path());
+        }
+        //======
         cursor.close();
         adapter.notifyDataSetChanged();
     }

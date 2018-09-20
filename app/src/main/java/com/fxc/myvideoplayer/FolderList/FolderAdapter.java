@@ -7,6 +7,7 @@ import android.media.ThumbnailUtils;
 import android.provider.MediaStore;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,9 +40,16 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
      final FolderItems folder = folders.get(position);
-       Glide.with(context)
+      /*Glide.with(context)
                 .load(R.drawable.item2)
-                .into(holder.img);
+              .into(holder.img);*/
+
+
+//TODO Joy0920 add
+//获取视频缩略图，显示缩略图
+        Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail
+                (folder.get_first_Video_Path(), MediaStore.Video.Thumbnails.MINI_KIND);
+        holder.img.setImageBitmap(thumbnail);
 
         holder.folder_name.setText(folder.get_folder_cat_name());
         holder.folder_num.setText(folder.get_video_number());

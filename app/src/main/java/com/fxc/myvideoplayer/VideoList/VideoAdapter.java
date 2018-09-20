@@ -49,8 +49,6 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
     VideoItems videoItem = videos.get(position);
-
-
     /*Glide.with(context)
             .load(videoItem.get_image_Resource())
             .into(holder.video_image);*/
@@ -67,12 +65,10 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
     holder.video_item_grid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("fileitem", "onClick: fileitem is clicked!!!");
+
                 startMovieActivity(position);
             }
         });
-
-
 
     }
     private void startMovieActivity(int position){

@@ -42,8 +42,6 @@ public class FileListActivity extends AppCompatActivity {
         folderName = getIntent().getStringExtra("folder_cat_name");
         actionBar.setTitle(folderName);
 
-        // List<VideoItems> videos = VideoFactory.create_videos(20);
-
         adapter = new VideoAdapter(this, videos, pathlist);
         //设置为list
         //layoutManager = new LinearLayoutManager(this);
@@ -73,7 +71,7 @@ public class FileListActivity extends AppCompatActivity {
             return;
         }
         while (cursor.moveToNext()) {
-            //TODO
+
                 String path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
                 String folderNameSub = getFolderName(path);
                 if(folderNameSub.equals(folderName)){
@@ -84,7 +82,6 @@ public class FileListActivity extends AppCompatActivity {
                 //long size = cursor.getLong(cursor.getColumnIndex(MediaStore.Video.Media.SIZE));
                 VideoItems videoItem = new VideoItems(video_name, video_duration, video_path);
                 list.add(videoItem);
-                Log.i("list","第一个视频地址"+list.get(0));
                 pathlist.add(video_path);
             }
         }
