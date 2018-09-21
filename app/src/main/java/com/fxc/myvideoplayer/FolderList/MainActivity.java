@@ -94,27 +94,25 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         FolderItems folderItem,folderItems1,folderItems2;
-        String path="";
+        String path = new String();
+        String firstPath = new String();
+        boolean isFirst = true;
         while (cursor.moveToNext()) {
             //TODO
-
+            path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
+            if (isFirst)
+                firstPath = path;
             //第一個item
             if (lastfolderName == null) {
-                path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
-
-                firstVideoPath.add(path);
-
-
+                isFirst = false;
                 folderName = getFolderName(path);
                 lastfolderName = folderName;
-
                 count++;
             }
             else {
+                isFirst = false;
                 lastfolderName = folderName;
-                  
                 folderName = getFolderName(path);
-
                 //folderName一樣
                 if (folderName.equals(lastfolderName)) {
                     count = count + 1;
@@ -122,23 +120,18 @@ public class MainActivity extends AppCompatActivity {
                 //folderName不一樣
                 else {
                     //TODO
-                    folderItem = new FolderItems(lastfolderName, String.valueOf(count),path);
-
-                    firstVideoPath.add(path);
+                    isFirst = true;
+                    folderItem = new FolderItems(lastfolderName, String.valueOf(count),firstPath);
                     list.add(folderItem);
                     count = 1;
                 }
             }
         }
-            folderItem = new FolderItems(folderName, String.valueOf(count),path);
-            list.add(folderItem);
-            folderItems.addAll(list);
-
-        //add log for first
-        for(int i=0;i<firstVideoPath.size();i++) {
-            Log.i("videoPath", "videoPath" + i + "~~" + firstVideoPath.get(i));
-        }
-        //======
+        if (isFirst)
+            firstPath = path;
+        folderItem = new FolderItems(folderName, String.valueOf(count),firstPath);
+        list.add(folderItem);
+        folderItems.addAll(list);
         cursor.close();
         adapter.notifyDataSetChanged();
     }
