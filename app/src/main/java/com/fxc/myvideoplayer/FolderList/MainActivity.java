@@ -96,21 +96,17 @@ public class MainActivity extends AppCompatActivity {
         FolderItems folderItem,folderItems1,folderItems2;
         String path = new String();
         String firstPath = new String();
-        boolean isFirst = true;
         while (cursor.moveToNext()) {
             //TODO
             path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
-            if (isFirst)
-                firstPath = path;
             //第一個item
             if (lastfolderName == null) {
-                isFirst = false;
                 folderName = getFolderName(path);
                 lastfolderName = folderName;
                 count++;
+                firstPath = path;
             }
             else {
-                isFirst = false;
                 lastfolderName = folderName;
                 folderName = getFolderName(path);
                 //folderName一樣
@@ -120,14 +116,14 @@ public class MainActivity extends AppCompatActivity {
                 //folderName不一樣
                 else {
                     //TODO
-                    isFirst = true;
                     folderItem = new FolderItems(lastfolderName, String.valueOf(count),firstPath);
                     list.add(folderItem);
                     count = 1;
+                    firstPath = path;
                 }
             }
         }
-        if (isFirst)
+        if (count ==1)
             firstPath = path;
         folderItem = new FolderItems(folderName, String.valueOf(count),firstPath);
         list.add(folderItem);
