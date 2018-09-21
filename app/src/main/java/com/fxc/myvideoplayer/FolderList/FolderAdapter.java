@@ -44,7 +44,6 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ViewHolder
                 .load(R.drawable.item2)
               .into(holder.img);*/
 
-
 //TODO Joy0920 add
 //获取视频缩略图，显示缩略图
         Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail

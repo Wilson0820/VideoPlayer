@@ -16,7 +16,7 @@ public class FolderFactory {
     private static String[] folder_numbers =
             {"10", "11", "12","13"};
 
-    public static List<FolderItems> createFolders(int num) {
+    /*public static List<FolderItems> createFolders(int num) {
 
         List<FolderItems> folders = new ArrayList<>();
         int arySize = image_Resources.length;
@@ -29,6 +29,6 @@ public class FolderFactory {
             folders.add(new FolderItems(image_Resource, folder_cat_name, folder_number));
         }
         return folders;
-    }
+    }*/
 
 }

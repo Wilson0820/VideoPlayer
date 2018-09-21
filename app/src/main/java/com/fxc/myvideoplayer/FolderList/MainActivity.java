@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     List<FolderItems> folderItems = new ArrayList<>();
     FolderAdapter adapter;
     String folderName,lastfolderName;
-    ArrayList<FolderItems> firstVideoPath = new ArrayList<>();
+    ArrayList<String> firstVideoPath = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,24 +94,25 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         FolderItems folderItem,folderItems1,folderItems2;
-
+        String path="";
         while (cursor.moveToNext()) {
             //TODO
 
             //第一個item
             if (lastfolderName == null) {
-                String path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
+                path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
 
-                folderItems1= new FolderItems(path);
-                firstVideoPath.add(folderItems1);
+                firstVideoPath.add(path);
+
 
                 folderName = getFolderName(path);
                 lastfolderName = folderName;
+
                 count++;
             }
             else {
                 lastfolderName = folderName;
-                String path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
+                  
                 folderName = getFolderName(path);
 
                 //folderName一樣
@@ -121,21 +122,21 @@ public class MainActivity extends AppCompatActivity {
                 //folderName不一樣
                 else {
                     //TODO
-                    folderItem = new FolderItems(lastfolderName, String.valueOf(count));
-                    folderItems2= new FolderItems(path);
-                    firstVideoPath.add(folderItems2);
+                    folderItem = new FolderItems(lastfolderName, String.valueOf(count),path);
+
+                    firstVideoPath.add(path);
                     list.add(folderItem);
                     count = 1;
                 }
             }
-
         }
-            folderItem = new FolderItems(folderName, String.valueOf(count));
+            folderItem = new FolderItems(folderName, String.valueOf(count),path);
             list.add(folderItem);
             folderItems.addAll(list);
+
         //add log for first
-        for(int i=0;i<firstVideoPath.size();i++){
-            Log.i("videoPath","videoPath"+i+"~~"+firstVideoPath.get(i).get_first_Video_Path());
+        for(int i=0;i<firstVideoPath.size();i++) {
+            Log.i("videoPath", "videoPath" + i + "~~" + firstVideoPath.get(i));
         }
         //======
         cursor.close();
