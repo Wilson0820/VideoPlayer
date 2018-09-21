@@ -30,14 +30,11 @@ public class MainActivity extends AppCompatActivity {
     List<FolderItems> folderItems = new ArrayList<>();
     FolderAdapter adapter;
     String folderName,lastfolderName;
-    ArrayList<String> firstVideoPath = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //List<FolderItems> folders = FolderFactory.createFolders(4);
         adapter = new FolderAdapter(this,folderItems);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
@@ -81,19 +78,14 @@ public class MainActivity extends AppCompatActivity {
     private void loadFolder() {
         int count=0;
         List<FolderItems> list = new ArrayList<>();
-
-//        1.获取ContentResolver对象
         ContentResolver resolver = getContentResolver();
-//        2.获取Uri地址
         Uri videoUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-//        3.开始查询系统视频数据库
         Cursor cursor = resolver.query(videoUri, null, null, null, MediaStore.Video.Media.DATA);
-//      4.移动cursor指针
         if(cursor==null){
             Toast.makeText(this, "没有找到可播放视频文件", Toast.LENGTH_SHORT).show();
             return;
         }
-        FolderItems folderItem,folderItems1,folderItems2;
+        FolderItems folderItem;
         String path = new String();
         String firstPath = new String();
         boolean isFirst = true;
@@ -157,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
             //todo complete setting function in here
 
             //Seamas-----------------------------------------------------------
-           /* Uri uri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+            Uri uri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
             String[] projections = {
                     MediaStore.Video.Media.ALBUM
             };
@@ -186,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-            }*/
+            }
             //-----------------------------------------------------------
 
 
