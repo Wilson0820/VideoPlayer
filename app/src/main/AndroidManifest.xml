@@ -31,6 +31,7 @@
             android:label="MovieActivity"
             android:configChanges="orientation"
             android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="sensor"
             android:launchMode="singleTask"></activity>
     </application>
 
