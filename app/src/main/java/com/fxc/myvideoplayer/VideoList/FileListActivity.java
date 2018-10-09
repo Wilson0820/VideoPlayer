@@ -110,12 +110,14 @@ public class FileListActivity extends AppCompatActivity {
                 layoutManager = new StaggeredGridLayoutManager(
                         2, StaggeredGridLayoutManager.VERTICAL);
                 videoRecyclerView.setLayoutManager(layoutManager);
+                videoRecyclerView.setAdapter(new VideoAdapter(this, videos, pathlist));
                 adapter.notifyDataSetChanged();
                 return true;
             } else {
                 item.setIcon(R.drawable.ic_grid);
                 layoutManager = new LinearLayoutManager(FileListActivity.this);
                 videoRecyclerView.setLayoutManager(layoutManager);
+                videoRecyclerView.setAdapter(new VideoAdapterLinear(this, videos, pathlist));
                 adapter.notifyDataSetChanged();
                 return true;
             }

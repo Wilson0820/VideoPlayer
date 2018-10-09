@@ -143,12 +143,14 @@ public class MainActivity extends AppCompatActivity {
                 layoutManager = new StaggeredGridLayoutManager(
                         2, StaggeredGridLayoutManager.VERTICAL);
                 recyclerView.setLayoutManager(layoutManager);
+                recyclerView.setAdapter(new FolderAdapterGrid(this,folderItems));
                 adapter.notifyDataSetChanged();
                 return true;
             } else {
                 item.setIcon(R.drawable.ic_grid);
                 layoutManager = new LinearLayoutManager(this);
                 recyclerView.setLayoutManager(layoutManager);
+                recyclerView.setAdapter(new FolderAdapter(this,folderItems));
                 adapter.notifyDataSetChanged();
                 return true;
             }
