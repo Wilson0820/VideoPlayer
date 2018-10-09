@@ -101,35 +101,28 @@ public class FileListActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.layout_change, menu);
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         final int id = item.getItemId();
-
-        item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                if (videoRecyclerView.getLayoutManager() instanceof GridLayoutManager) {
-                    item.setIcon(R.drawable.ic_list);
-                    layoutManager = new LinearLayoutManager(FileListActivity.this);
-                    videoRecyclerView.setLayoutManager(layoutManager);
-                    adapter.notifyDataSetChanged();
-
-                    return true;
-                } else if(videoRecyclerView.getLayoutManager() instanceof LinearLayoutManager){
-                    item.setIcon(R.drawable.ic_grid);
-                    layoutManager = new StaggeredGridLayoutManager(
-                            2, StaggeredGridLayoutManager.VERTICAL
-                    );
-                    videoRecyclerView.setLayoutManager(layoutManager);
-                    adapter.notifyDataSetChanged();
-                    return true;
-                }
-            return true;
+        if (id == R.id.action_layout_list) {
+            if (videoRecyclerView.getLayoutManager() instanceof LinearLayoutManager){
+                item.setIcon(R.drawable.ic_list);
+                layoutManager = new StaggeredGridLayoutManager(
+                        2, StaggeredGridLayoutManager.VERTICAL);
+                videoRecyclerView.setLayoutManager(layoutManager);
+                adapter.notifyDataSetChanged();
+                return true;
+            } else {
+                item.setIcon(R.drawable.ic_grid);
+                layoutManager = new LinearLayoutManager(FileListActivity.this);
+                videoRecyclerView.setLayoutManager(layoutManager);
+                adapter.notifyDataSetChanged();
+                return true;
             }
+
         }
-        );
-     return super.onOptionsItemSelected(item);
-    }
+        return true;
+        }
+
     }
 
