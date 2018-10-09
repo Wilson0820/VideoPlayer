@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
+   /* @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
@@ -184,6 +184,6 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
 }

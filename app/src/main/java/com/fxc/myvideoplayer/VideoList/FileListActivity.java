@@ -66,15 +66,15 @@ public class FileListActivity extends AppCompatActivity {
 //        3.开始查询系统视频数据库
         Cursor cursor = resolver.query(videoUri, null, null, null, MediaStore.Video.Media.DISPLAY_NAME);
 //      4.移动cursor指针
-        if(cursor==null){
+        if (cursor == null) {
             Toast.makeText(this, "没有找到可播放视频文件", Toast.LENGTH_LONG).show();
             return;
         }
         while (cursor.moveToNext()) {
 
-                String path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
-                String folderNameSub = getFolderName(path);
-                if(folderNameSub.equals(folderName)){
+            String path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
+            String folderNameSub = getFolderName(path);
+            if (folderNameSub.equals(folderName)) {
                 String video_name = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DISPLAY_NAME));
                 String video_path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
                 // String video_album = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.ALBUM));
@@ -90,9 +90,9 @@ public class FileListActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
-    public String getFolderName(String path){
-        String[] path1= path.split("/");
-        String folderName = path1[path1.length-2];
+    public String getFolderName(String path) {
+        String[] path1 = path.split("/");
+        String folderName = path1[path1.length - 2];
         return folderName;
     }
 
@@ -104,23 +104,32 @@ public class FileListActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_layout_list) {
-            layoutManager = new LinearLayoutManager(
-                    this);
-            videoRecyclerView.setLayoutManager(layoutManager);
-            adapter.notifyDataSetChanged();
+        final int id = item.getItemId();
 
+        item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (videoRecyclerView.getLayoutManager() instanceof GridLayoutManager) {
+                    item.setIcon(R.drawable.ic_list);
+                    layoutManager = new LinearLayoutManager(FileListActivity.this);
+                    videoRecyclerView.setLayoutManager(layoutManager);
+                    adapter.notifyDataSetChanged();
+
+                    return true;
+                } else if(videoRecyclerView.getLayoutManager() instanceof LinearLayoutManager){
+                    item.setIcon(R.drawable.ic_grid);
+                    layoutManager = new StaggeredGridLayoutManager(
+                            2, StaggeredGridLayoutManager.VERTICAL
+                    );
+                    videoRecyclerView.setLayoutManager(layoutManager);
+                    adapter.notifyDataSetChanged();
+                    return true;
+                }
             return true;
-        } else if (id == R.id.action_layout_grid) {
-            layoutManager = new StaggeredGridLayoutManager(
-                    2, StaggeredGridLayoutManager.VERTICAL
-            );
-            videoRecyclerView.setLayoutManager(layoutManager);
-            adapter.notifyDataSetChanged();
-            return true;
+            }
         }
-        return super.onOptionsItemSelected(item);
+        );
+     return super.onOptionsItemSelected(item);
+    }
     }
 
-}
