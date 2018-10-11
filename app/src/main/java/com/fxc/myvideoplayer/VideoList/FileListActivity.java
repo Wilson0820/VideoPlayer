@@ -71,15 +71,12 @@ public class FileListActivity extends AppCompatActivity {
             return;
         }
         while (cursor.moveToNext()) {
-
             String path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
             String folderNameSub = getFolderName(path);
             if (folderNameSub.equals(folderName)) {
                 String video_name = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DISPLAY_NAME));
                 String video_path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
-                // String video_album = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.ALBUM));
                 long video_duration = cursor.getLong(cursor.getColumnIndex(MediaStore.Video.Media.DURATION));
-                //long size = cursor.getLong(cursor.getColumnIndex(MediaStore.Video.Media.SIZE));
                 VideoItems videoItem = new VideoItems(video_name, video_duration, video_path);
                 list.add(videoItem);
                 pathlist.add(video_path);
@@ -101,6 +98,7 @@ public class FileListActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.layout_change, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         final int id = item.getItemId();
@@ -121,10 +119,8 @@ public class FileListActivity extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
                 return true;
             }
-
         }
         return true;
         }
-
     }
 

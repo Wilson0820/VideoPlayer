@@ -36,10 +36,6 @@ public class VideoAdapterLinear extends RecyclerView.Adapter<VideoAdapterLinear.
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        //list显示
-
-        //View itemView = inflater.inflate(R.layout.file_item, parent, false);
-        //Grid 显示
         View itemView = inflater.inflate(R.layout.video_item_linear, parent, false);
         return new ViewHolder(itemView);
     }
@@ -59,15 +55,12 @@ public class VideoAdapterLinear extends RecyclerView.Adapter<VideoAdapterLinear.
         Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail
                 (videoItem.get_video_path(), MediaStore.Video.Thumbnails.MINI_KIND);
         holder.video_image.setImageBitmap(thumbnail);
-    //startMovieActivity();
-    holder.video_item_grid.setOnClickListener(new View.OnClickListener() {
+        holder.video_item_grid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 startMovieActivity(position);
             }
         });
-
     }
     private void startMovieActivity(int position){
         Intent intent = new Intent(context,MovieActivity.class);

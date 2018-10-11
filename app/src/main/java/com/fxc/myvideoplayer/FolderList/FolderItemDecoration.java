@@ -19,6 +19,4 @@ public class FolderItemDecoration extends ItemDecoration {
             outRect.bottom = verticalSpaceHeight;
         }
     }
-
-
 }

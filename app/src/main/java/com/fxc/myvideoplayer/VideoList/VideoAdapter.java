@@ -38,10 +38,6 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        //list显示
-
-        //View itemView = inflater.inflate(R.layout.file_item, parent, false);
-        //Grid 显示
         View itemView = inflater.inflate(R.layout.video_item_grid, parent, false);
         return new ViewHolder(itemView);
     }
@@ -49,28 +45,22 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
     VideoItems videoItem = videos.get(position);
-    /*Glide.with(context)
-            .load(videoItem.get_image_Resource())
-            .into(holder.video_image);*/
     holder.video_name.setText(videoItem.get_video_name());
-
-        SimpleDateFormat sdf = new SimpleDateFormat("mm:ss");
-        String time = sdf.format(new Date(videoItem.get_video_duration()));
-        holder.video_duration.setText(time);
-        //      获取视频缩略图，显示缩略图
+    SimpleDateFormat sdf = new SimpleDateFormat("mm:ss");
+    String time = sdf.format(new Date(videoItem.get_video_duration()));
+    holder.video_duration.setText(time);
+        //获取视频缩略图，显示缩略图
         Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail
                 (videoItem.get_video_path(), MediaStore.Video.Thumbnails.MINI_KIND);
         holder.video_image.setImageBitmap(thumbnail);
-    //startMovieActivity();
-    holder.video_item_grid.setOnClickListener(new View.OnClickListener() {
+        holder.video_item_grid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 startMovieActivity(position);
             }
         });
-
     }
+
     private void startMovieActivity(int position){
         Intent intent = new Intent(context,MovieActivity.class);
 
@@ -87,6 +77,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         intent.putExtra("moviepathlist",bundle);
         context.startActivity(intent);
     }
+
     @Override
     public int getItemCount() {
         return videos.size();

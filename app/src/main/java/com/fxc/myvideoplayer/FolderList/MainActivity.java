@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView.LayoutManager layoutManager;
     RecyclerView recyclerView;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
     }
 
     @Override
@@ -73,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //
     private void loadFolder() {
         int count=0;
         List<FolderItems> list = new ArrayList<>();
@@ -88,9 +85,7 @@ public class MainActivity extends AppCompatActivity {
         String path = new String();
         String firstPath = new String();
         while (cursor.moveToNext()) {
-            //TODO
             path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
-            //第一個item
             if (lastfolderName == null) {
                 folderName = getFolderName(path);
                 lastfolderName = folderName;
@@ -106,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
                 }
                 //folderName不一樣
                 else {
-                    //TODO
                     folderItem = new FolderItems(lastfolderName, String.valueOf(count),firstPath);
                     list.add(folderItem);
                     count = 1;
@@ -134,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.layout_change, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         final int id = item.getItemId();
