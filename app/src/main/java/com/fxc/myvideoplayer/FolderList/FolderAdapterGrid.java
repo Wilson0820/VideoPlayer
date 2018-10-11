@@ -28,7 +28,6 @@ public class FolderAdapterGrid extends RecyclerView.Adapter<FolderAdapterGrid.Vi
         this.folders = folders;
     }
 
-
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View itemView = inflater.inflate(R.layout.folder_item_grid, parent, false);
@@ -38,12 +37,7 @@ public class FolderAdapterGrid extends RecyclerView.Adapter<FolderAdapterGrid.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
      final FolderItems folder = folders.get(position);
-      /*Glide.with(context)
-                .load(R.drawable.item2)
-              .into(holder.img);*/
-
-//TODO Joy0920 add
-//获取视频缩略图，显示缩略图
+    //获取视频缩略图，显示缩略图
         Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail
                 (folder.get_first_Video_Path(), MediaStore.Video.Thumbnails.MINI_KIND);
         holder.img.setImageBitmap(thumbnail);
@@ -58,7 +52,6 @@ public class FolderAdapterGrid extends RecyclerView.Adapter<FolderAdapterGrid.Vi
         startFileListActivity(folder);
     }
 });
-
     }
     private void startFileListActivity(FolderItems folder){
         Intent intent = new Intent(context,FileListActivity.class);
@@ -84,7 +77,5 @@ public class FolderAdapterGrid extends RecyclerView.Adapter<FolderAdapterGrid.Vi
             folder_num = itemView.findViewById(R.id.folder_numbers);
             img = itemView.findViewById(R.id.folder_image);
         }
-
-
     }
 }
